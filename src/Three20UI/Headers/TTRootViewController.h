@@ -17,6 +17,9 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+// UINavigator
+#import "Three20UINavigator/TTNavigatorRootContainer.h"
+
 /**
  * This controller sits at the root of the view hierarchy and will always be the only root view
  * attached to the window.
