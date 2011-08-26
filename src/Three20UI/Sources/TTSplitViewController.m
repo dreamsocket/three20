@@ -320,7 +320,8 @@ static const CGFloat kMasterWidthInLandscape = 330;
       _secondaryViewController.superController = self;
 
       UIView* secondaryView = self.secondaryViewController.view;
-      secondaryView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+      secondaryView.autoresizingMask = (UIViewAutoresizingFlexibleWidth
+                                          | UIViewAutoresizingFlexibleHeight);
       secondaryView.clipsToBounds = YES;
 
       if ([self isViewLoaded]) {
