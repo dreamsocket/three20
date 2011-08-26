@@ -19,7 +19,7 @@
 #import "Three20UI/TTTextEditorDelegate.h"
 
 // UINavigator
-#import "Three20UINavigator/TTNavigatorPopoverProtocol.h"
+//#import "Three20UINavigator/TTNavigatorPopoverProtocol.h"
 
 @protocol TTTableViewDataSource;
 @protocol TTMessageControllerDelegate;
@@ -43,8 +43,8 @@
  */
 @interface TTMessageController : TTViewController <
   UITextFieldDelegate,
-  TTTextEditorDelegate,
-  TTNavigatorPopoverProtocol
+  TTTextEditorDelegate
+  /*TTNavigatorPopoverProtocol*/
 > {
 @protected
   NSArray*          _fields;

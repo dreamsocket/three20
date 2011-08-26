@@ -27,7 +27,7 @@
 #import "Three20UINavigator/TTBaseNavigator.h"
 #import "Three20UINavigator/TTNavigatorDelegate.h"
 #import "Three20UINavigator/TTNavigatorRootContainer.h"
-#import "Three20UINavigator/TTNavigatorPopoverProtocol.h"
+//#import "Three20UINavigator/TTNavigatorPopoverProtocol.h"
 #import "Three20UINavigator/TTNavigatorDisplayProtocol.h"
 
 // -- URL Action
