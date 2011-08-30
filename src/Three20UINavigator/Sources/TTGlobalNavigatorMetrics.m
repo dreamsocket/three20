@@ -72,22 +72,16 @@ CGRect TTKeyboardNavigationFrame() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 CGFloat TTStatusHeight() {
-  UIInterfaceOrientation orientation = TTInterfaceOrientation();
-  if (orientation == UIInterfaceOrientationLandscapeLeft) {
-    return [UIScreen mainScreen].applicationFrame.origin.x;
-
-  } else if (orientation == UIInterfaceOrientationLandscapeRight) {
-    return -[UIScreen mainScreen].applicationFrame.origin.x;
-
-  } else {
-    return [UIScreen mainScreen].applicationFrame.origin.y;
-  }
+  CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
+  // We take advantage of the fact that the status bar will always be wider than it is tall
+  // in order to avoid having to check the status bar orientation.
+  return MIN(statusBarFrame.size.width, statusBarFrame.size.height);
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 CGFloat TTBarsHeight() {
-  CGRect frame = [UIApplication sharedApplication].statusBarFrame;
+  CGRect frame = [[UIApplication sharedApplication] statusBarFrame];
   if (UIInterfaceOrientationIsPortrait(TTInterfaceOrientation())) {
     return frame.size.height + TT_ROW_HEIGHT;
 
