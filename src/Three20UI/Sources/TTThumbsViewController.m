@@ -163,7 +163,9 @@ static CGFloat kThumbnailRowHeight = 79;
   self.tableView.rowHeight = kThumbnailRowHeight;
   self.tableView.autoresizingMask =
   UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-  self.tableView.backgroundColor = TTSTYLEVAR(backgroundColor);
+  UIColor *color = TTSTYLEVAR(backgroundColor);
+  color = [color isEqual:[UIColor clearColor]] ? [UIColor blackColor] : color;
+  self.tableView.backgroundColor = color;//TTSTYLEVAR(backgroundColor);
   self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
   [self updateTableLayout];
 }
