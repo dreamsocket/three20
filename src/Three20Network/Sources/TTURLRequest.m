@@ -54,6 +54,8 @@ static NSString* kStringBoundary = @"3i2ndDfv2rTHiSisAbouNdArYfORhtTPEefj3q2f";
 
 @synthesize totalBytesLoaded      = _totalBytesLoaded;
 @synthesize totalBytesExpected    = _totalBytesExpected;
+@synthesize totalContentLength    = _totalContentLength;
+@synthesize totalBytesDownloaded  = _totalBytesDownloaded;
 
 @synthesize userInfo              = _userInfo;
 @synthesize isLoading             = _isLoading;
