@@ -35,28 +35,16 @@
 @synthesize sourceRect    = _sourceRect;
 @synthesize sourceView    = _sourceView;
 @synthesize sourceButton  = _sourceButton;
+@synthesize passthroughViews = _passthroughViews;
 @synthesize transition    = _transition;
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-+ (id)action {
-  return [[[self alloc] init] autorelease];
-}
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-+ (id)actionWithURLPath:(NSString*)urlPath {
-  return [[[self alloc] initWithURLPath:urlPath] autorelease];
-}
+@synthesize targetPopoverController = _targetPopoverController;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (id)initWithURLPath:(NSString*)urlPath {
-	self = [super init];
+  self = [super init];
   if (self) {
     self.urlPath = urlPath;
-    self.animated = NO;
-    self.withDelay = NO;
     self.transition = UIViewAnimationTransitionNone;
   }
 
@@ -66,7 +54,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (id)init {
-	self = [self initWithURLPath:nil];
+  self = [self initWithURLPath:nil];
   if (self) {
   }
 
@@ -82,8 +70,61 @@
   TT_RELEASE_SAFELY(_state);
   TT_RELEASE_SAFELY(_sourceView);
   TT_RELEASE_SAFELY(_sourceButton);
+  TT_RELEASE_SAFELY(_passthroughViews);
+  TT_RELEASE_SAFELY(_targetPopoverController);
 
   [super dealloc];
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (NSString*)description {
+  return [NSString stringWithFormat:
+          @"<TTURLAction: %p"
+          @"; urlPath = %@"
+          @"; parentUrlPath = %@"
+          @"; query = %@"
+          @"; state = %@"
+          @"; animated = %d"
+          @"; withDelay = %d"
+          @"; sourceRect = %@"
+          @"; sourceView = %@"
+          @"; sourceButton = %@"
+          @"; passthroughViews = %@"
+          @"; transition = %d"   // TODO (jverkoey Jan 25, 2011): Make a utility method for this.
+          @">",
+          self,
+          self.urlPath,
+          self.parentURLPath,
+          self.query,
+          self.state,
+          self.animated,
+          self.withDelay,
+          NSStringFromCGRect(self.sourceRect),
+          self.sourceView,
+          self.sourceButton,
+          self.passthroughViews,
+          self.transition];
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (BOOL)isPopoverAction {
+  return (nil != self.sourceView
+          || nil != self.sourceButton
+          || nil != self.targetPopoverController);
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
++ (id)action {
+  return [[[self alloc] init] autorelease];
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
++ (id)actionWithURLPath:(NSString*)urlPath {
+  return [[[self alloc] initWithURLPath:urlPath] autorelease];
 }
 
 
@@ -139,6 +180,20 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (TTURLAction*)applySourceButton:(UIBarButtonItem*)sourceButton {
   self.sourceButton = sourceButton;
+  return self;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (TTURLAction*)applyPassthroughViews:(NSArray*)passthroughViews {
+  self.passthroughViews = passthroughViews;
+  return self;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (TTURLAction*)applyTargetPopoverController:(UIPopoverController*)targetPopoverController {
+  self.targetPopoverController = targetPopoverController;
   return self;
 }
 

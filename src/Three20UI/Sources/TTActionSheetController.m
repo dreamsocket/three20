@@ -21,6 +21,9 @@
 #import "Three20UI/TTActionSheetControllerDelegate.h"
 #import "Three20UI/TTActionSheet.h"
 
+// UINavigator
+#import "Three20UINavigator/TTURLAction.h"
+
 // Core
 #import "Three20Core/TTCorePreprocessorMacros.h"
 
@@ -30,8 +33,9 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTActionSheetController
 
-@synthesize delegate = _delegate;
-@synthesize userInfo = _userInfo;
+@synthesize delegate  = _delegate;
+@synthesize userInfo  = _userInfo;
+@synthesize action    = _action;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -84,6 +88,7 @@
 - (void)dealloc {
   TT_RELEASE_SAFELY(_URLs);
   TT_RELEASE_SAFELY(_userInfo);
+  TT_RELEASE_SAFELY(_action);
 
   [super dealloc];
 }
@@ -181,6 +186,8 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)willPresentActionSheet:(UIActionSheet*)actionSheet {
+  [TTNavigator dismissPopoverAnimated:YES];
+
   if ([_delegate respondsToSelector:@selector(willPresentActionSheet:)]) {
     [_delegate willPresentActionSheet:actionSheet];
   }
@@ -216,12 +223,35 @@
   }
 
   if (URL && canOpenURL) {
-    TTOpenURL(URL);
+    self.action.urlPath = URL;
+
+    TTURLAction* action = self.action;
+    if (nil == action) {
+      action = [TTURLAction action];
+    }
+    action.urlPath = URL;
+    [self.navigator openURLAction:[action applyAnimated:YES]];
   }
 
   if ([_delegate respondsToSelector:@selector(actionSheet:didDismissWithButtonIndex:)]) {
     [_delegate actionSheet:actionSheet didDismissWithButtonIndex:buttonIndex];
   }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark TTNavigatorDisplayProtocol
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (BOOL)  navigator: (TTBaseNavigator*)navigator
+  presentController: (UIViewController*)controller
+   parentController: (UIViewController*)parentController
+             action: (TTURLAction*)action {
+  self.action = action;
+  return NO; // we did not present this controller.
 }
 
 
