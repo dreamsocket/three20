@@ -203,6 +203,21 @@ static const CGFloat kVPadding = 7.0f;
 - (void)drawRect:(CGRect)rect {
   TTStyle* style = [self styleForCurrentState];
   if (style) {
+      TTBoxStyle *padding = [style firstStyleOfClass:[TTBoxStyle class]];
+      if(padding) {
+          
+          CGFloat width = self.frame.size.width;
+          CGFloat height = self.frame.size.height;
+          
+          if (self.frame.size.width < padding.minSize.width) {
+              width = padding.minSize.width;
+          }
+          if (self.frame.size.height < padding.minSize.height) {
+              height = padding.minSize.height;
+          } 
+          self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, width, height);
+      }
+      
     CGRect textFrame = self.bounds;
 
     TTStyleContext* context = [[[TTStyleContext alloc] init] autorelease];
@@ -261,13 +276,22 @@ static const CGFloat kVPadding = 7.0f;
   context.delegate = self;
   context.font = [self fontForCurrentState];
 
-  TTStyle* style = [self styleForCurrentState];
-  if (style) {
-    return [style addToSize:CGSizeZero context:context];
-
-  } else {
-    return size;
-  }
+    TTStyle* style = [self styleForCurrentState];
+    if (style) {
+        CGSize contextualSize = [style addToSize:CGSizeZero context:context];
+        TTBoxStyle *padding = [style firstStyleOfClass:[TTBoxStyle class]];
+        if (padding) {
+            if (contextualSize.width < padding.minSize.width) {
+                contextualSize.width = padding.minSize.width;
+            }
+            if (contextualSize.height < padding.minSize.height) {
+                contextualSize.height = padding.minSize.height;
+            } 
+        }
+        return contextualSize; 
+    } else {
+        return size;
+    }
 }
 
 
