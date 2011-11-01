@@ -511,10 +511,11 @@ __attribute__((weak_import));
       [self didRestoreController:controller];
     }
 
-    if ([_delegate respondsToSelector:@selector(navigator:willOpenURL:inViewController:)]) {
+    if ([_delegate respondsToSelector:@selector(navigator:willOpenURL:inViewController:withQuery:)]) {
       [_delegate navigator: self
                willOpenURL: theURL
-          inViewController: controller];
+          inViewController: controller
+                 withQuery: action.query];
     }
 
     action.transition = action.transition ? action.transition : pattern.transition;
@@ -529,10 +530,11 @@ __attribute__((weak_import));
     }
 
   } else if (_opensExternalURLs) {
-    if ([_delegate respondsToSelector:@selector(navigator:willOpenURL:inViewController:)]) {
+    if ([_delegate respondsToSelector:@selector(navigator:willOpenURL:inViewController:withQuery:)]) {
       [_delegate navigator: self
                willOpenURL: theURL
-          inViewController: nil];
+          inViewController: nil
+                 withQuery: action.query];
     }
 
     [[UIApplication sharedApplication] openURL:theURL];

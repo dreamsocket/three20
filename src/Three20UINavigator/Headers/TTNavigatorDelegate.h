@@ -43,6 +43,6 @@
  * If the controller argument is nil, the URL is going to be opened externally.
  */
 - (void)navigator:(TTBaseNavigator*)navigator willOpenURL:(NSURL*)URL
- inViewController:(UIViewController*)controller;
+ inViewController:(UIViewController*)controller withQuery:(NSDictionary*)query;
 
 @end
