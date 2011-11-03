@@ -318,7 +318,7 @@ static const CGFloat kCancelHighlightThreshold = 4.0f;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
   TTTableView* tableView = (TTTableView*)[self ancestorOrSelfWithClass:[TTTableView class]];
-  if (!tableView) {
+  if (tableView) {
     if (_highlightedNode) {
       // This is a dirty hack to decouple the UI from Style. TTOpenURL was originally within
       // the node implementation. One potential fix would be to provide some protocol for these
@@ -334,11 +334,12 @@ static const CGFloat kCancelHighlightThreshold = 4.0f;
       }
       [self setHighlightedFrame:nil];
     }
-  }
 
-  // We definitely don't want to call this if the label is inside a TTTableView, because
-  // it winds up calling touchesEnded on the table twice, triggering the link twice
-  [super touchesEnded:touches withEvent:event];
+  } else {
+    // We definitely don't want to call this if the label is inside a TTTableView, because
+    // it winds up calling touchesEnded on the table twice, triggering the link twice
+    [super touchesEnded:touches withEvent:event];
+  }
 }
 
 
