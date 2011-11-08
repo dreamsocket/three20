@@ -26,7 +26,7 @@
  * Asks if the URL should be opened and allows the delegate to prevent it.
  * See -navigator:URLToOpen: for a superset of functionality
  */
-- (BOOL)navigator:(TTBaseNavigator*)navigator shouldOpenURL:(NSURL*)URL;
+- (BOOL)navigator:(TTBaseNavigator*)navigator shouldOpenURL:(NSURL*)URL withQuery:(NSDictionary*)query;
 
 /**
  * Asks if the URL should be opened and allows the delegate to return a different URL to open

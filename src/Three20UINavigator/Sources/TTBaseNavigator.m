@@ -474,7 +474,12 @@ __attribute__((weak_import));
   }
 
   // Allows the delegate to prevent opening this URL
-  if ([_delegate respondsToSelector:@selector(navigator:shouldOpenURL:)]) {
+  if ([_delegate respondsToSelector:@selector(navigator:shouldOpenURL:withQuery:)]) {
+    if (![_delegate navigator:self shouldOpenURL:theURL withQuery:action.query]) {
+      return nil;
+    }
+      
+  } else if ([_delegate respondsToSelector:@selector(navigator:shouldOpenURL:)]) {
     if (![_delegate navigator:self shouldOpenURL:theURL]) {
       return nil;
     }
