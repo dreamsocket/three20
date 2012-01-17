@@ -18,7 +18,7 @@
 #import <UIKit/UIKit.h>
 
 typedef enum {
-  TTActivityLabelStyleWhite,
+  TTActivityLabelStyleWhite = 0,
   TTActivityLabelStyleGray,
   TTActivityLabelStyleBlackBox,
   TTActivityLabelStyleBlackBezel,

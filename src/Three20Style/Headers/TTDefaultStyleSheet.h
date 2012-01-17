@@ -89,6 +89,7 @@
 @property (nonatomic, readonly) UIFont* errorSubtitleFont;
 @property (nonatomic, readonly) UIFont* activityLabelFont;
 @property (nonatomic, readonly) UIFont* activityBannerFont;
+@property (nonatomic, readonly) int tableActivityLabelStyle;
 
 @property (nonatomic, readonly) UITableViewCellSelectionStyle tableSelectionStyle;
 
