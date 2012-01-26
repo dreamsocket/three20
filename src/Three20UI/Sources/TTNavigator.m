@@ -167,7 +167,7 @@ UIViewController* TTOpenURLFromView(NSString* URL, UIView* view) {
 - (void)didRestoreController:(UIViewController*)controller {
   if ([controller isKindOfClass:[TTModelViewController class]]) {
     TTModelViewController* modelViewController = (TTModelViewController*)controller;
-    modelViewController.model;
+    [modelViewController model];
   }
 }
 
