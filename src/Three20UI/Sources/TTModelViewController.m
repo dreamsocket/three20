@@ -240,6 +240,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)modelDidStartLoad:(id<TTModel>)model {
   if (model == self.model) {
+      TT_RELEASE_SAFELY(_modelError);
     _flags.isModelWillLoadInvalid = YES;
     _flags.isModelDidLoadFirstTimeInvalid = YES;
     [self invalidateView];
