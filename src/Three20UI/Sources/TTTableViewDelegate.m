@@ -16,6 +16,9 @@
 
 #import "Three20UI/TTTableViewDelegate.h"
 
+// UINavigator
+#import "Three20UINavigator/TTURLAction.h"
+
 // UI
 #import "Three20UI/TTNavigator.h"
 #import "Three20UI/TTTableViewDataSource.h"
@@ -153,7 +156,15 @@ static const NSUInteger kFirstTableSection = 0;
   if ([object isKindOfClass:[TTTableLinkedItem class]]) {
     TTTableLinkedItem* item = object;
     if (item.URL && [_controller shouldOpenURL:item.URL]) {
-      TTOpenURLFromView(item.URL, tableView);
+      if (item.query) {
+        [[TTBaseNavigator navigatorForView:tableView] openURLAction:
+          [[[[TTURLAction actionWithURLPath:item.URL]
+          applyAnimated:YES] applyQuery:item.query]
+          applyTargetPopoverController:[TTBaseNavigator popoverControllerForView:tableView]]];
+            
+      } else {
+        TTOpenURLFromView(item.URL, tableView);
+      }
 
     } else if (item.delegate && item.selector) {
       [item.delegate performSelector:item.selector withObject:object];

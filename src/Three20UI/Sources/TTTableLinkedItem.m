@@ -27,6 +27,7 @@
 
 @synthesize URL           = _URL;
 @synthesize accessoryURL  = _accessoryURL;
+@synthesize query         = _query;
 @synthesize delegate      = _delegate;
 @synthesize selector      = _selector;
 
@@ -35,6 +36,7 @@
 - (void)dealloc {
   TT_RELEASE_SAFELY(_URL);
   TT_RELEASE_SAFELY(_accessoryURL);
+  TT_RELEASE_SAFELY(_query);
   _delegate = nil;
   _selector = nil;
 
@@ -50,10 +52,11 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (id)initWithCoder:(NSCoder*)decoder {
-	self = [super initWithCoder:decoder];
+  self = [super initWithCoder:decoder];
   if (self) {
     self.URL = [decoder decodeObjectForKey:@"URL"];
     self.accessoryURL = [decoder decodeObjectForKey:@"accessoryURL"];
+    self.query = [decoder decodeObjectForKey:@"query"];
   }
   return self;
 }
@@ -68,6 +71,9 @@
   if (self.accessoryURL) {
     [encoder encodeObject:self.accessoryURL forKey:@"accessoryURL"];
   }
+  if (self.query) {
+    [encoder encodeObject:self.query forKey:@"query"];
+  }    
 }
 
 
