@@ -42,7 +42,8 @@ NSString* TTLocalizedString(NSString* key, NSString* comment) {
     bundle = [[NSBundle bundleWithPath:path] retain];
   }
 
-  return [bundle localizedStringForKey:key value:key table:nil];
+  NSString *localized = [bundle localizedStringForKey:key value:key table:nil];
+  return localized == nil ? key : localized;
 }
 
 
