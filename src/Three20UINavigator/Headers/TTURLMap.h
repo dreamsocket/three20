@@ -67,6 +67,7 @@
  * until it is destroyed.
  */
 - (void)from:(NSString*)URL toSharedViewController:(id)target;
+- (void)from:(NSString*)URL toSharedViewController:(id)target transition:(NSInteger)transition;
 - (void)from:(NSString*)URL toSharedViewController:(id)target selector:(SEL)selector;
 - (void)from:(NSString*)URL parent:(NSString*)parentURL
         toSharedViewController:(id)target;
