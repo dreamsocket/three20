@@ -48,7 +48,6 @@ static TTURLRequestQueue* gMainQueue = nil;
 
 @synthesize maxContentLength        = _maxContentLength;
 @synthesize userAgent               = _userAgent;
-@synthesize suspended               = _suspended;
 @synthesize imageCompressionQuality = _imageCompressionQuality;
 @synthesize defaultTimeout          = _defaultTimeout;
 
@@ -77,6 +76,7 @@ static TTURLRequestQueue* gMainQueue = nil;
   if (self) {
     _loaders = [[NSMutableDictionary alloc] init];
     _loaderQueue = [[NSMutableArray alloc] init];
+    _suspendRequests = [[NSMutableArray alloc] init];
     _maxContentLength = kDefaultMaxContentLength;
     _imageCompressionQuality = 0.75;
     _defaultTimeout = kTimeout;
@@ -228,7 +228,7 @@ static TTURLRequestQueue* gMainQueue = nil;
 
     if ([self loadFromCache:request.urlPath cacheKey:request.cacheKey
               expires:request.cacheExpirationAge
-              fromDisk:!_suspended && (request.cachePolicy & TTURLRequestCachePolicyDisk)
+              fromDisk:!self.suspended && (request.cachePolicy & TTURLRequestCachePolicyDisk)
               data:&data error:&error timestamp:&timestamp]) {
       request.isLoading = NO;
 
@@ -315,7 +315,7 @@ static TTURLRequestQueue* gMainQueue = nil;
     [loader release];
   }
 
-  if (_loaderQueue.count && !_suspended) {
+  if (_loaderQueue.count && !self.suspended) {
     [self loadNextInQueueDelayed];
   }
 }
@@ -329,11 +329,23 @@ static TTURLRequestQueue* gMainQueue = nil;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+- (BOOL)suspended {
+  return _suspendRequests.count > 0;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setSuspended:(BOOL)isSuspended {
   TTDCONDITIONLOG(TTDFLAG_URLREQUEST, @"SUSPEND LOADING %d", isSuspended);
-  _suspended = isSuspended;
+    
+  if (isSuspended) {
+    [_suspendRequests addObject:[NSNumber numberWithBool:YES]];
+        
+  } else if (self.suspended) {
+    [_suspendRequests removeLastObject];
+  }
 
-  if (!_suspended) {
+  if (!self.suspended) {
     [self loadNextInQueue];
 
   } else if (_loaderQueueTimer) {
@@ -384,7 +396,7 @@ static TTURLRequestQueue* gMainQueue = nil;
   // Finally, create a new loader and hit the network (unless we are suspended)
   loader = [[TTRequestLoader alloc] initForRequest:request queue:self];
   [_loaders setObject:loader forKey:request.cacheKey];
-  if (_suspended || _totalLoading == kMaxConcurrentLoads) {
+  if (self.suspended || _totalLoading == kMaxConcurrentLoads) {
     [_loaderQueue addObject:loader];
 
   } else {
@@ -543,7 +555,7 @@ static TTURLRequestQueue* gMainQueue = nil;
           && [self cacheDataExists: request.urlPath
                           cacheKey: request.cacheKey
                            expires: request.cacheExpirationAge
-                          fromDisk: !_suspended
+                          fromDisk: !self.suspended
                                     && (request.cachePolicy & TTURLRequestCachePolicyDisk)]) {
         // By setting the etag here, we let the server know what the last "version" of the file
         // was that we saw. If the file has changed since this etag, we'll get data back in our
@@ -646,7 +658,7 @@ static TTURLRequestQueue* gMainQueue = nil;
   NSDate* timestamp = nil;
   if ([self loadFromCache:loader.urlPath cacheKey:loader.cacheKey
                   expires:TT_CACHE_EXPIRATION_AGE_NEVER
-                 fromDisk:!_suspended && (loader.cachePolicy & TTURLRequestCachePolicyDisk)
+                 fromDisk:!self.suspended && (loader.cachePolicy & TTURLRequestCachePolicyDisk)
                      data:&data error:&error timestamp:&timestamp]) {
 
     if (nil == error) {
