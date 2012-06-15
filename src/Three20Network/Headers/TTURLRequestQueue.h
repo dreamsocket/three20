@@ -35,7 +35,7 @@
   
   NSTimeInterval        _defaultTimeout;
 
-  NSMutableArray*       _suspendRequests;
+  BOOL                  _suspended;
 }
 
 /**
