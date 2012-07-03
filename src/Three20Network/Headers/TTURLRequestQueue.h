@@ -36,6 +36,7 @@
   NSTimeInterval        _defaultTimeout;
 
   BOOL                  _suspended;
+  NSMutableArray*       _stopRequests;
 }
 
 /**
@@ -46,6 +47,16 @@
  * suspended becomes false again they are executed.
  */
 @property (nonatomic) BOOL suspended;
+
+/**
+ * Gets the flag that determines if new load requests are allowed to reach the network.
+ *
+ * This is given a higher priority than suspended and REQUIRES a matching number
+ * of negative calls to resume the queue. Useful when there are several
+ * transitions/animations going at once and loading needs to be suspended untill the 
+ * final one completes.
+ */
+@property (nonatomic) BOOL stopped;
 
 /**
  * The maximum size of a download that is allowed.

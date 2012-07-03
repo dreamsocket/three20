@@ -49,6 +49,7 @@ static TTURLRequestQueue* gMainQueue = nil;
 @synthesize maxContentLength        = _maxContentLength;
 @synthesize userAgent               = _userAgent;
 @synthesize suspended               = _suspended;
+@synthesize stopped                 = _stopped;
 @synthesize imageCompressionQuality = _imageCompressionQuality;
 @synthesize defaultTimeout          = _defaultTimeout;
 
@@ -91,6 +92,7 @@ static TTURLRequestQueue* gMainQueue = nil;
   TT_RELEASE_SAFELY(_loaders);
   TT_RELEASE_SAFELY(_loaderQueue);
   TT_RELEASE_SAFELY(_userAgent);
+  TT_RELEASE_SAFELY(_stopRequests);
   [super dealloc];
 }
 
@@ -228,7 +230,7 @@ static TTURLRequestQueue* gMainQueue = nil;
 
     if ([self loadFromCache:request.urlPath cacheKey:request.cacheKey
               expires:request.cacheExpirationAge
-              fromDisk:!_suspended && (request.cachePolicy & TTURLRequestCachePolicyDisk)
+              fromDisk:!self.suspended && (request.cachePolicy & TTURLRequestCachePolicyDisk)
               data:&data error:&error timestamp:&timestamp]) {
       request.isLoading = NO;
 
@@ -315,7 +317,7 @@ static TTURLRequestQueue* gMainQueue = nil;
     [loader release];
   }
 
-  if (_loaderQueue.count && !_suspended) {
+  if (_loaderQueue.count && !self.suspended) {
     [self loadNextInQueueDelayed];
   }
 }
@@ -333,13 +335,43 @@ static TTURLRequestQueue* gMainQueue = nil;
   TTDCONDITIONLOG(TTDFLAG_URLREQUEST, @"SUSPEND LOADING %d", isSuspended);
   _suspended = isSuspended;
 
-  if (!_suspended) {
+  if (!self.suspended) {
     [self loadNextInQueue];
 
   } else if (_loaderQueueTimer) {
     [_loaderQueueTimer invalidate];
     _loaderQueueTimer = nil;
   }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (BOOL)suspended {
+    return _suspended || self.stopped; 
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)setStopped:(BOOL)stopped {
+    TTDCONDITIONLOG(TTDFLAG_URLREQUEST, @"STOP LOADING %d", stopped);
+    if (stopped) {
+        if (nil == _stopRequests) {
+            _stopRequests = [[NSMutableArray alloc] initWithCapacity:4];
+        }
+        
+        [_stopRequests addObject:[NSNumber numberWithBool:YES]];
+        
+    } else if (self.stopped) {
+        [_stopRequests removeLastObject];
+    }
+    
+    self.suspended = stopped;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (BOOL)stopped {
+    return _stopRequests.count > 0;
 }
 
 
@@ -384,7 +416,7 @@ static TTURLRequestQueue* gMainQueue = nil;
   // Finally, create a new loader and hit the network (unless we are suspended)
   loader = [[TTRequestLoader alloc] initForRequest:request queue:self];
   [_loaders setObject:loader forKey:request.cacheKey];
-  if (_suspended || _totalLoading == kMaxConcurrentLoads) {
+  if (self.suspended || _totalLoading == kMaxConcurrentLoads) {
     [_loaderQueue addObject:loader];
 
   } else {
@@ -543,7 +575,7 @@ static TTURLRequestQueue* gMainQueue = nil;
           && [self cacheDataExists: request.urlPath
                           cacheKey: request.cacheKey
                            expires: request.cacheExpirationAge
-                          fromDisk: !_suspended
+                          fromDisk: !self.stopped
                                     && (request.cachePolicy & TTURLRequestCachePolicyDisk)]) {
         // By setting the etag here, we let the server know what the last "version" of the file
         // was that we saw. If the file has changed since this etag, we'll get data back in our
@@ -646,7 +678,7 @@ static TTURLRequestQueue* gMainQueue = nil;
   NSDate* timestamp = nil;
   if ([self loadFromCache:loader.urlPath cacheKey:loader.cacheKey
                   expires:TT_CACHE_EXPIRATION_AGE_NEVER
-                 fromDisk:!_suspended && (loader.cachePolicy & TTURLRequestCachePolicyDisk)
+                 fromDisk:!self.suspended && (loader.cachePolicy & TTURLRequestCachePolicyDisk)
                      data:&data error:&error timestamp:&timestamp]) {
 
     if (nil == error) {
