@@ -16,6 +16,9 @@
 
 #import "Three20UI/TTNavigationController.h"
 
+// UI Navigator
+#import "Three20UINavigator/TTGlobalNavigatorMetrics.h"
+
 // Network
 #import "Three20Network/TTURLRequestQueue.h"
 
@@ -24,6 +27,58 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTNavigationController
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark -
+#pragma mark UIViewController
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+  UIViewController *vc = self.visibleViewController;
+  if ([vc respondsToSelector:@selector(preferredInterfaceOrientationForPresentation)]) {
+    return [vc preferredInterfaceOrientationForPresentation];
+  }
+
+  return TTInterfaceOrientation();
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (BOOL)shouldAutorotate {
+  BOOL shouldAutorotate = YES;
+  if ([self respondsToSelector:@selector(shouldAutorotateToInterfaceOrientation:)]) {
+    NSUInteger mask = 0;
+    if ([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationPortrait]) {
+      mask |= UIInterfaceOrientationMaskPortrait;
+    }
+    if ([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationLandscapeLeft]) {
+      mask |= UIInterfaceOrientationMaskLandscapeLeft;
+    }
+    if ([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationLandscapeRight]) {
+      mask |= UIInterfaceOrientationMaskLandscapeRight;
+    }
+    if ([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationPortraitUpsideDown]) {
+      mask |= UIInterfaceOrientationMaskPortraitUpsideDown;
+    }
+    if (mask == 0) {
+      shouldAutorotate = NO;
+    }
+
+  } else {
+    shouldAutorotate = [super shouldAutorotate];
+  }
+
+  return shouldAutorotate;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (NSUInteger)supportedInterfaceOrientations {
+  return [self.visibleViewController supportedInterfaceOrientations];
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
