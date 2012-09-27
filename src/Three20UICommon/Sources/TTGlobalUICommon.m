@@ -222,6 +222,17 @@ BOOL TTIsSupportedOrientation(UIInterfaceOrientation orientation) {
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+NSUInteger TTSupportedInterfaceOrientations() {
+  if (TTIsPad()) {
+    return UIInterfaceOrientationMaskAll;
+
+  } else {
+    return UIInterfaceOrientationMaskAllButUpsideDown;
+  }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 CGAffineTransform TTRotateTransformForOrientation(UIInterfaceOrientation orientation) {
   if (orientation == UIInterfaceOrientationLandscapeLeft) {
     return CGAffineTransformMakeRotation(M_PI*1.5);

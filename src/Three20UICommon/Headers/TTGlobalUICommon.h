@@ -82,6 +82,8 @@ NSString* TTDeviceModelName();
  */
 BOOL TTIsSupportedOrientation(UIInterfaceOrientation orientation);
 
+NSUInteger TTSupportedInterfaceOrientations();
+
 /**
  * @return the rotation transform for a given orientation.
  */
