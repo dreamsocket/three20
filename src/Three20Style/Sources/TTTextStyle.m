@@ -33,6 +33,7 @@
 
 @synthesize font              = _font;
 @synthesize color             = _color;
+@synthesize strokeColor       = _strokeColor;
 @synthesize shadowColor       = _shadowColor;
 @synthesize shadowOffset      = _shadowOffset;
 @synthesize minimumFontSize   = _minimumFontSize;
@@ -61,6 +62,7 @@
 - (void)dealloc {
   TT_RELEASE_SAFELY(_font);
   TT_RELEASE_SAFELY(_color);
+  TT_RELEASE_SAFELY(_strokeColor)
   TT_RELEASE_SAFELY(_shadowColor);
 
   [super dealloc];
@@ -160,6 +162,32 @@
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
++ (TTTextStyle*)styleWithFont:(UIFont*)font color:(UIColor*)color
+              minimumFontSize:(CGFloat)minimumFontSize
+                  shadowColor:(UIColor*)shadowColor shadowOffset:(CGSize)shadowOffset
+                textAlignment:(UITextAlignment)textAlignment
+            verticalAlignment:(UIControlContentVerticalAlignment)verticalAlignment
+                lineBreakMode:(UILineBreakMode)lineBreakMode numberOfLines:(NSInteger)numberOfLines
+                  strokeColor:(UIColor*)strokeColor
+                  strokeWidth:(CGFloat)strokeWidth
+                         next:(TTStyle*)next {
+    TTTextStyle* style = [[[self alloc] initWithNext:next] autorelease];
+    style.font = font;
+    style.color = color;
+    style.minimumFontSize = minimumFontSize;
+    style.shadowColor = shadowColor;
+    style.shadowOffset = shadowOffset;
+    style.textAlignment = textAlignment;
+    style.verticalAlignment = verticalAlignment;
+    style.lineBreakMode = lineBreakMode;
+    style.numberOfLines = numberOfLines;
+    style.strokeColor = strokeColor;
+    style.strokeWidth = strokeWidth;
+    return style;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark -
 #pragma mark Private
@@ -246,6 +274,12 @@
 
   if (_color) {
     [_color setFill];
+  }
+
+  if (_strokeColor) {
+    [_strokeColor setStroke];
+    CGContextSetLineWidth(ctx, _strokeWidth ? _strokeWidth : 1.0);
+    CGContextSetTextDrawingMode(ctx, kCGTextFillStroke);
   }
 
   CGRect rect = context.contentFrame;

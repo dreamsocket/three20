@@ -20,9 +20,12 @@
 @interface TTTextStyle : TTStyle {
   UIFont*   _font;
   UIColor*  _color;
-
+    
   UIColor*  _shadowColor;
   CGSize    _shadowOffset;
+    
+  UIColor*  _strokeColor;
+  CGFloat   _strokeWidth;
 
   CGFloat   _minimumFontSize;
   NSInteger _numberOfLines;
@@ -38,6 +41,9 @@
 
 @property (nonatomic, retain) UIColor*  shadowColor;
 @property (nonatomic)         CGSize    shadowOffset;
+
+@property (nonatomic, retain) UIColor*  strokeColor;
+@property (nonatomic)         CGFloat   strokeWidth;
 
 @property (nonatomic)         CGFloat   minimumFontSize;
 @property (nonatomic)         NSInteger numberOfLines;
@@ -65,6 +71,15 @@
                 textAlignment:(UITextAlignment)textAlignment
             verticalAlignment:(UIControlContentVerticalAlignment)verticalAlignment
                 lineBreakMode:(UILineBreakMode)lineBreakMode numberOfLines:(NSInteger)numberOfLines
+                         next:(TTStyle*)next;
++ (TTTextStyle*)styleWithFont:(UIFont*)font color:(UIColor*)color
+              minimumFontSize:(CGFloat)minimumFontSize
+                  shadowColor:(UIColor*)shadowColor shadowOffset:(CGSize)shadowOffset
+                textAlignment:(UITextAlignment)textAlignment
+            verticalAlignment:(UIControlContentVerticalAlignment)verticalAlignment
+                lineBreakMode:(UILineBreakMode)lineBreakMode numberOfLines:(NSInteger)numberOfLines
+                  strokeColor:(UIColor*)strokeColor
+                  strokeWidth:(CGFloat)strokeWidth
                          next:(TTStyle*)next;
 
 @end
