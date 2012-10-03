@@ -161,7 +161,7 @@ static const NSUInteger kFirstTableSection = 0;
           [[[[TTURLAction actionWithURLPath:item.URL]
           applyAnimated:YES] applyQuery:item.query]
           applyTargetPopoverController:[TTBaseNavigator popoverControllerForView:tableView]]];
-            
+
       } else {
         TTOpenURLFromView(item.URL, tableView);
       }

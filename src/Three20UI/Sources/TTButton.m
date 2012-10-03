@@ -204,20 +204,20 @@ static const CGFloat kVPadding = 7.0f;
   TTStyle* style = [self styleForCurrentState];
   if (style) {
       TTBoxStyle *padding = [style firstStyleOfClass:[TTBoxStyle class]];
-      if(padding) {
-          
+      if (padding) {
+
           CGFloat width = self.frame.size.width;
           CGFloat height = self.frame.size.height;
-          
+
           if (self.frame.size.width < padding.minSize.width) {
               width = padding.minSize.width;
           }
           if (self.frame.size.height < padding.minSize.height) {
               height = padding.minSize.height;
-          } 
+          }
           self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, width, height);
       }
-      
+
     CGRect textFrame = self.bounds;
 
     TTStyleContext* context = [[[TTStyleContext alloc] init] autorelease];
@@ -286,9 +286,10 @@ static const CGFloat kVPadding = 7.0f;
             }
             if (contextualSize.height < padding.minSize.height) {
                 contextualSize.height = padding.minSize.height;
-            } 
+            }
         }
-        return contextualSize; 
+        return contextualSize;
+
     } else {
         return size;
     }

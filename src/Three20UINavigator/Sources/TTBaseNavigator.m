@@ -836,7 +836,8 @@ __attribute__((weak_import));
       [self didRestoreController:controller];
     }
 
-    if ([_delegate respondsToSelector:@selector(navigator:willOpenURL:inViewController:withQuery:)]) {
+    if ([_delegate respondsToSelector:
+         @selector(navigator:willOpenURL:inViewController:withQuery:)]) {
       [_delegate navigator: self
                willOpenURL: theURL
           inViewController: controller
@@ -855,7 +856,8 @@ __attribute__((weak_import));
     }
 
   } else if (_opensExternalURLs) {
-    if ([_delegate respondsToSelector:@selector(navigator:willOpenURL:inViewController:withQuery:)]) {
+    if ([_delegate respondsToSelector:
+         @selector(navigator:willOpenURL:inViewController:withQuery:)]) {
       [_delegate navigator: self
                willOpenURL: theURL
           inViewController: nil

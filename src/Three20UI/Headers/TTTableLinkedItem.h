@@ -22,17 +22,17 @@
   // be invoked.
   NSString* _URL;
   NSString* _accessoryURL;
-    
+
   NSDictionary* _query;
 
   id        _delegate;
   SEL       _selector;
 }
 
-@property (nonatomic, copy) 	NSString* URL;
-@property (nonatomic, copy)   NSString* accessoryURL;
+@property (nonatomic, copy)   NSString*     URL;
+@property (nonatomic, copy)   NSString*     accessoryURL;
 @property (nonatomic, retain) NSDictionary* query;
-@property (nonatomic, assign) id        delegate;
-@property (nonatomic, assign) SEL       selector;
+@property (nonatomic, assign) id            delegate;
+@property (nonatomic, assign) SEL           selector;
 
 @end

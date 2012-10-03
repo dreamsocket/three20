@@ -73,7 +73,7 @@
   }
   if (self.query) {
     [encoder encodeObject:self.query forKey:@"query"];
-  }    
+  }
 }
 
 

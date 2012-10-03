@@ -20,10 +20,10 @@
 @interface TTTextStyle : TTStyle {
   UIFont*   _font;
   UIColor*  _color;
-    
+
   UIColor*  _shadowColor;
   CGSize    _shadowOffset;
-    
+
   UIColor*  _strokeColor;
   CGFloat   _strokeWidth;
 

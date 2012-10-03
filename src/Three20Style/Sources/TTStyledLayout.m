@@ -576,6 +576,7 @@
         if (blockFrame.height < padding.minSize.height) {
           _height += padding.minSize.height - blockFrame.height;
           blockFrame.height = padding.minSize.height;
+
         } else if (blockFrame.width < padding.minSize.width) {
           _width += padding.minSize.width - blockFrame.width;
           blockFrame.width = padding.minSize.width;
