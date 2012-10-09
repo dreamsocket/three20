@@ -23,6 +23,7 @@
   UIColor*  _bottom;
   UIColor*  _left;
   CGFloat   _width;
+  BOOL      _dotted;
 }
 
 @property (nonatomic, retain) UIColor*  top;
@@ -30,9 +31,13 @@
 @property (nonatomic, retain) UIColor*  bottom;
 @property (nonatomic, retain) UIColor*  left;
 @property (nonatomic)         CGFloat   width;
+@property (nonatomic)         BOOL      dotted;
 
 + (TTFourBorderStyle*)styleWithTop:(UIColor*)top right:(UIColor*)right bottom:(UIColor*)bottom
                               left:(UIColor*)left width:(CGFloat)width next:(TTStyle*)next;
++ (TTFourBorderStyle*)styleWithTop:(UIColor*)top right:(UIColor*)right bottom:(UIColor*)bottom
+                              left:(UIColor*)left width:(CGFloat)width dotted:(BOOL)dotted
+                              next:(TTStyle*)next;
 + (TTFourBorderStyle*)styleWithTop:(UIColor*)top width:(CGFloat)width next:(TTStyle*)next;
 + (TTFourBorderStyle*)styleWithRight:(UIColor*)right width:(CGFloat)width next:(TTStyle*)next;
 + (TTFourBorderStyle*)styleWithBottom:(UIColor*)bottom width:(CGFloat)width next:(TTStyle*)next;

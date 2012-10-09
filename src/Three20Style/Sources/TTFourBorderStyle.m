@@ -82,6 +82,21 @@
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
++ (TTFourBorderStyle*)styleWithTop:(UIColor*)top right:(UIColor*)right bottom:(UIColor*)bottom
+                              left:(UIColor*)left width:(CGFloat)width dotted:(BOOL)dotted
+                              next:(TTStyle*)next {
+  TTFourBorderStyle* style = [[[self alloc] initWithNext:next] autorelease];
+  style.top = top;
+  style.right = right;
+  style.bottom = bottom;
+  style.left = left;
+  style.width = width;
+  style.dotted = dotted;
+  return style;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 + (TTFourBorderStyle*)styleWithTop:(UIColor*)top width:(CGFloat)width next:(TTStyle*)next {
   TTFourBorderStyle* style = [[[self alloc] initWithNext:next] autorelease];
   style.top = top;
@@ -135,6 +150,12 @@
 
   CGContextRef ctx = UIGraphicsGetCurrentContext();
   CGContextSetLineWidth(ctx, _width);
+
+  if (_dotted) {
+    CGFloat dashes[] = {1, 1};
+    CGContextSetShouldAntialias(ctx, NO);
+    CGContextSetLineDash(ctx, 0, dashes, 2);
+  }
 
   [context.shape addTopEdgeToPath:strokeRect lightSource:kDefaultLightSource];
   if (_top) {
