@@ -54,17 +54,19 @@
 
 - (NSString*)subtitleForEmpty;
 
+- (NSString*)buttonTitleForEmpty;
 
-/**
- * return YES to include a reload button in the TTErrorView.
- */
-- (BOOL)reloadButtonForEmpty;
+- (NSString*)buttonStyleForEmpty;
 
 - (UIImage*)imageForError:(NSError*)error;
 
 - (NSString*)titleForError:(NSError*)error;
 
 - (NSString*)subtitleForError:(NSError*)error;
+
+- (NSString*)buttonTitleForError:(NSError*)error;
+
+- (NSString*)buttonStyleForError:(NSError*)error;
 
 @optional
 

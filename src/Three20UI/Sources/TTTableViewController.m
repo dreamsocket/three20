@@ -487,12 +487,14 @@
       NSString* title = [_dataSource titleForError:_modelError];
       NSString* subtitle = [_dataSource subtitleForError:_modelError];
       UIImage* image = [_dataSource imageForError:_modelError];
+      NSString *buttonTitle = [_dataSource buttonTitleForError:_modelError];
+      NSString *buttonStyle = [_dataSource buttonStyleForError:_modelError];
       if (title.length || subtitle.length || image) {
         TTErrorView* errorView = [[[TTErrorView alloc] initWithTitle:title
                                                             subtitle:subtitle
                                                                image:image] autorelease];
-        if ([_dataSource reloadButtonForEmpty]) {
-          [errorView addReloadButton];
+        if (buttonTitle && buttonStyle) {
+          [errorView addReloadButtonWithTitle:buttonTitle style:buttonStyle];
           [errorView.reloadButton addTarget:self
                                      action:@selector(reload)
                            forControlEvents:UIControlEventTouchUpInside];
@@ -520,10 +522,18 @@
     NSString* title = [_dataSource titleForEmpty];
     NSString* subtitle = [_dataSource subtitleForEmpty];
     UIImage* image = [_dataSource imageForEmpty];
+    NSString *buttonTitle = [_dataSource buttonTitleForEmpty];
+    NSString *buttonStyle = [_dataSource buttonStyleForEmpty];
     if (title.length || subtitle.length || image) {
       TTErrorView* errorView = [[[TTErrorView alloc] initWithTitle:title
                                                           subtitle:subtitle
                                                              image:image] autorelease];
+      if (buttonTitle && buttonStyle) {
+        [errorView addReloadButtonWithTitle:buttonTitle style:buttonStyle];
+        [errorView.reloadButton addTarget:self
+                                   action:@selector(reload)
+                         forControlEvents:UIControlEventTouchUpInside];
+      }
       errorView.backgroundColor = _tableView.backgroundColor;
       self.emptyView = errorView;
 

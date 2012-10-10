@@ -41,10 +41,8 @@ static const CGFloat kHPadding  = 10.0f;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)addReloadButton {
-  _reloadButton = [[TTButton buttonWithStyle:@"tableReloadButton:"] retain];
-  [_reloadButton setImage:@"bundle://Three20.bundle/images/reloadButton.png"
-                 forState:UIControlStateNormal];
+- (void)addReloadButtonWithTitle:(NSString*)title style:(NSString*)style {
+  _reloadButton = [[TTButton buttonWithStyle:style title:title] retain];
   [_reloadButton sizeToFit];
   [self addSubview:_reloadButton];
 

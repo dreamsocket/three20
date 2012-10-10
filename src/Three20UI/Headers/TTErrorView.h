@@ -38,6 +38,6 @@
 /**
  * adds a reload button into the error view
  */
-- (void)addReloadButton;
+- (void)addReloadButtonWithTitle:(NSString*)title style:(NSString*)style;
 
 @end
