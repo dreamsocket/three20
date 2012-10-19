@@ -984,8 +984,8 @@
   // Otherwise the delegate will be retained the model.
 
   // You need to set it to nil before changing it or it won't have any effect
-  //_tableView.delegate = nil;
-  //[self updateTableDelegate];
+  _tableView.delegate = nil;
+  [self updateTableDelegate];
 }
 
 @end
