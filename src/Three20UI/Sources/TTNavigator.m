@@ -82,7 +82,7 @@ UIViewController* TTOpenURLFromView(NSString* URL, UIView* view) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (Class)windowClass {
-  return [TTNavigatorWindow class];
+  return [UIWindow class];
 }
 
 
