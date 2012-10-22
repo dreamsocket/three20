@@ -28,6 +28,7 @@
   UIStatusBarStyle  _statusBarStyle;
 
   BOOL _isViewAppearing;
+  BOOL _isViewDisappearing;
   BOOL _hasViewAppeared;
   BOOL _autoresizesForKeyboard;
 }
@@ -65,6 +66,11 @@
  * The view is about to appear and has not appeared yet.
  */
 @property (nonatomic, readonly) BOOL isViewAppearing;
+
+/**
+ * The view is about to appear and has not appeared yet.
+ */
+@property (nonatomic, readonly) BOOL isViewDisappearing;
 
 /**
  * Determines if the view will be resized automatically to fit the keyboard.

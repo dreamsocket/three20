@@ -38,6 +38,7 @@
 @synthesize navigationBarTintColor  = _navigationBarTintColor;
 @synthesize statusBarStyle          = _statusBarStyle;
 @synthesize isViewAppearing         = _isViewAppearing;
+@synthesize isViewDisappearing         = _isViewDisappearing;
 @synthesize hasViewAppeared         = _hasViewAppeared;
 @synthesize autoresizesForKeyboard  = _autoresizesForKeyboard;
 
@@ -151,6 +152,7 @@
   [super viewWillAppear:animated];
 
   _isViewAppearing = YES;
+  _isViewDisappearing = NO;
   _hasViewAppeared = YES;
 
   if (!self.popupViewController) {
@@ -170,6 +172,7 @@
   [super viewWillDisappear:animated];
 
   _isViewAppearing = NO;
+  _isViewDisappearing = YES;
 }
 
 
