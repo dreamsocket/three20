@@ -53,6 +53,11 @@ BOOL TTIsMultiTaskingSupported();
 BOOL TTIsPad();
 
 /**
+ * @return TRUE if the device is widescreen iPhone/iPod.
+ */
+BOOL TTIsWidescreen();
+
+/**
  * @return the current device orientation.
  */
 UIDeviceOrientation TTDeviceOrientation();

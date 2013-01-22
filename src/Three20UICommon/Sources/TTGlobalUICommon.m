@@ -136,6 +136,13 @@ BOOL TTIsPad() {
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+BOOL TTIsWidescreen() {
+  return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone
+    && [UIScreen mainScreen].bounds.size.height == 568;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 UIDeviceOrientation TTDeviceOrientation() {
   UIDeviceOrientation orient = [[UIDevice currentDevice] orientation];
   if (UIDeviceOrientationUnknown == orient) {
