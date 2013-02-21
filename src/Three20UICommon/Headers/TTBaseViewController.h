@@ -30,6 +30,7 @@
   BOOL _isViewAppearing;
   BOOL _isViewDisappearing;
   BOOL _hasViewAppeared;
+  BOOL _didViewAppear;
   BOOL _autoresizesForKeyboard;
 }
 
