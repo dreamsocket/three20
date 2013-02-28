@@ -38,7 +38,7 @@
 @synthesize navigationBarTintColor  = _navigationBarTintColor;
 @synthesize statusBarStyle          = _statusBarStyle;
 @synthesize isViewAppearing         = _isViewAppearing;
-@synthesize isViewDisappearing         = _isViewDisappearing;
+@synthesize isViewDisappearing      = _isViewDisappearing;
 @synthesize hasViewAppeared         = _hasViewAppeared;
 @synthesize autoresizesForKeyboard  = _autoresizesForKeyboard;
 
@@ -181,6 +181,14 @@
 
   _isViewAppearing = NO;
   _isViewDisappearing = YES;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+    
+  _isViewDisappearing = NO;
 }
 
 
