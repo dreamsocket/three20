@@ -46,13 +46,8 @@
                        [TTExtensionAuthor authorWithName:@"Jeff Verkoeyen"],
                        nil];
 
-#ifdef EXTJSON_SBJSON
   extension.version = [extension.version stringByAppendingString:@" SBJSON 3.0.2"];
   extension.copyright = [extension.copyright stringByAppendingString:@" 2009-2011 Stig Brautaset."];
-#elif defined(EXTJSON_YAJL)
-  extension.version = [extension.version stringByAppendingString:@" YAJL 1.0.11"];
-  extension.copyright = [extension.copyright stringByAppendingString:@" 2009 Gabriel Handford. 2010 Lloyd Hilaiel."];
-#endif
 
   return [extension autorelease];
 }

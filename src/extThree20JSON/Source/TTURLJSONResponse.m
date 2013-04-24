@@ -18,12 +18,7 @@
 
 // extJSON
 #import "extThree20JSON/TTErrorCodes.h"
-#ifdef EXTJSON_SBJSON
-#import "extThree20JSON/SBJson.h"
-#import "extThree20JSON/NSString+SBJSON.h"
-#elif defined(EXTJSON_YAJL)
-#import "extThree20JSON/NSObject+YAJL.h"
-#endif
+//#import "extThree20JSON/NSString+SBJSON.h"
 
 // Core
 #import "Three20Core/TTCorePreprocessorMacros.h"
@@ -61,7 +56,6 @@
   TTDASSERT(nil == _rootObject);
   NSError* err = nil;
   if ([data isKindOfClass:[NSData class]]) {
-#ifdef EXTJSON_SBJSON
     NSString* json = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
     // When there are newline characters in the JSON string, 
     // the error "Unescaped control character '0x9'" will be thrown. This removes those characters.
@@ -72,16 +66,6 @@
                                 code:kTTExtJSONErrorCodeInvalidJSON
                             userInfo:nil];
     }
-#elif defined(EXTJSON_YAJL)
-    @try {
-      _rootObject = [[data yajl_JSON] retain];
-    }
-    @catch (NSException* exception) {
-      err = [NSError errorWithDomain:kTTExtJSONErrorDomain
-                                code:kTTExtJSONErrorCodeInvalidJSON
-                            userInfo:[exception userInfo]];
-    }
-#endif
   }
 
   return err;
