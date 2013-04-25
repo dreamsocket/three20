@@ -17,3 +17,5 @@
 #include "Paths.xcconfig"
 
 FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks"
+IPHONEOS_DEPLOYMENT_TARGET = 3.0
+SDKROOT = iphoneos
